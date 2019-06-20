@@ -12,34 +12,29 @@ PyPoll_csv =os.path.join("..","Resources","election_data.csv")
 
 with open(PyPoll_csv, "r") as f:
     csvreader=csv.reader(f, delimiter=",")
+    
     data = list(csvreader)
-    Total_votes = len(data) -1
+    Total_votes = len(data)-1
 print(Total_votes)
 
 with open(PyPoll_csv, "r") as f:
-    csvreader=csv.reader(f, delimiter=",")
+    csvreader=csv.reader(f, delimiter=",")    
     next(csvreader)
     data = numpy.array(list(csvreader))
-    candidates_received_votes= []
-    names_list=set(data[:,2])
-    print(names_list)
-#    print(names_list)
-#    csvreader= list(csvreader)
-#    names_list.sort()
-#    print(names_list)
-#for i in range(3,len(data)):
-#    if i+2 !=i+1:
-#        print(data[i][1])
-#        list.append(csvreader[i][3])
-#        print(names_list)
-    # for name in set(names):
-#print("name '{}' appears {} unique times".format(name, names.count(name))
+    unique, counts = numpy.unique(data[:,2], return_counts=True)
+    #Find the winner
+    winner = max(set(data[:,2]),key =list(data[:,2]).count)
+    # Count votes for each candidate
+    votes_each_candidate = list(zip(unique, counts))
     
-    #for i in range(2,len(csvreader)):
-        #changes.append(int(csvreader[i][1])-int(csvreader[i-1][1]))
-    #The average of the changes in "Profit/Losses" over the entire period    
-#average=sum(changes)/len(changes) 
-    #sort the list of changes
-#changes.sort(reverse=False)
-    #print greatest increase in profit
-#print(changes[0])
+    print("Election Results")
+    print("-----------------")
+    print(f'Total Votes:{Total_votes}')
+    print("-----------------")
+    print(f'{unique[0]}: {((counts[0]/Total_votes)*100):.3f}% ({counts[0]})')
+    print(f'{unique[1]}: {((counts[1]/Total_votes)*100):.3f}% ({counts[1]})')
+    print(f'{unique[2]}: {((counts[2]/Total_votes)*100):.3f}% ({counts[2]})')
+    print(f'{unique[3]}: {((counts[3]/Total_votes)*100):.3f}% ({counts[3]})')
+    print("-----------------")
+    print(f'Winner:{winner}')
+   
